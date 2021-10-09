@@ -9,11 +9,11 @@ To make the Fibonacci call from the user-server:
 
 ```http://localhost:8080/fibonacci?hostname=fib.com&fs_port=9090&number=11&as_ip=dns-server&as_port=53533```
 
-where 8080 is port forwarded to the user-server machine
+where 8080 is port forwarded to the User Server machine name (user-server)
 
-the hostname of the fibonacci server, here, is fib.com, but can be whatever is registered
+the hostname of the Fibonacci Server, here, is fib.com, but can be whatever is registered
 
-port of fibonacci server is 9090
+port of Fibonacci Server is 9090
 
 number as desired, although, note that I capped the fib number at 2000
 
