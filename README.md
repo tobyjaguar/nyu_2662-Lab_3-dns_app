@@ -5,7 +5,7 @@ To run the docker containers, from the project directory:
 
 ```docker-compose up```
 
-To make the Fibonacci call from the user-server:
+To make the Fibonacci call from the User Server:
 
 ```http://localhost:8080/fibonacci?hostname=fib.com&fs_port=9090&number=11&as_ip=dns-server&as_port=53533```
 
