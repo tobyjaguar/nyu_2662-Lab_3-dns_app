@@ -9,7 +9,7 @@ const fib = require('fibonacci');
 const app = express();
 const socket = dgram.createSocket('udp4');
 
-const port = process.env.PORT || 9090;
+const port = 9090;
 
 
 // set up express for query strings
@@ -25,17 +25,18 @@ app.get('/fibonacci', async (req, res) => {
   let parsed = parseInt(fibNum);
   let err = (isNaN(parsed)) ? true : false;
   if (err) {
-    res.status(400);
+    res.sendStatus(400);
     res.send('bad format');
     return
   }
   if (parsed > 2000) {
-    res.status(400);
+    res.sendStatus(400);
     res.send('number too large');
     return
   }
   let bigNum = fib.iterate(parsed);
-  res.send(bigNum.number);
+  console.log(`fs: sending fib result:::${bigNum.number}`)
+  res.send(bigNum.number.toString());
 });
 
 app.put('/register', async (req, res) => {
@@ -53,11 +54,14 @@ app.put('/register', async (req, res) => {
     `TYPE=A\nNAME=${payload.hostname}\nVALUE=${payload.host_ip}\nTTL=10\n`
   )
 
-  socket.send(message, 53533, 'localhost', (err) => {
+  socket.send(message, payload.as_port, payload.as_ip, (err) => {
+    console.log('fs: sending new registration');
+    console.log(message);
+    console.log('fs: closing socket');
     socket.close();
   });
 
-  res.status(201)
+  res.sendStatus(201)
   res.send(`registered`)
 });
 

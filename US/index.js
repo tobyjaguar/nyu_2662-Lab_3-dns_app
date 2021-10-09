@@ -6,7 +6,7 @@ const axios = require('axios');
 
 const app = express();
 
-const port = process.env.PORT || 8080;
+const port = 8080;
 const socket_port = process.env.SOCKET_PORT || 53533;
 
 // set up express for query strings
@@ -27,7 +27,7 @@ app.get('/fibonacci', async (req, res) => {
 
     for (const [key, value] of Object.entries(payload)) {
         if (!value) {
-          res.status(400)
+          res.sendStatus(400)
           res.send('Missing query string element')
           return
         }
@@ -49,34 +49,50 @@ app.get('/fibonacci', async (req, res) => {
       `TYPE=A\nNAME=${payload.hostname}\n`
     )
 
-    socket.send(message, 53533, 'localhost', (err) => {
-      console.log('sending message...')
+    socket.send(message, payload.as_port, payload.as_ip, (err) => {
+      console.log('us: sending message...');
+      console.log(`us: dest addr: ${payload.as_ip}`);
+      console.log((`us: dest port: ${payload.as_port}`));
     });
 
     socket.on('message', (msg, rinfo) => {
       fib_ip = msg.toString();
+      console.log(`us: received message`);
+      console.log(fib_ip);
+      console.log('us: closing socket');
       socket.close();
     });
 
     await sleep(1000);
 
-    console.log(fib_ip);
-    let data = `oops, didn't get anything back`;
+    let fibNum = `oops, didn't get anything back`;
 
     try {
+      if (!fib_ip) {
+        res.sendStatus(200);
+        res.send(fibNum);
+        return;
+      }
+
       result = await axios.get(`${fib_ip}/fibonacci`, {
         params: {
           number: payload.seq_num
+        },
+        proxy: {
+          host: fib_ip,
+          port: payload.fs_port
         }
       });
-      data = result.data;
+      console.log('us: result from fs:::')
+      fibNum = result.data;
     }
     catch (err) {
       console.log('error dialing fibonacci server');
       console.log(err);
     }
-
-    res.send(data)
+    console.log(`us: sending data to client:::${fibNum}`);
+    res.sendStatus(200);
+    res.send(fibNum);
 });
 
 function sleep(ms) {

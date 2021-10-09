@@ -1,0 +1,42 @@
+# docker-compose
+version: "2"
+
+services:
+    dns-server:
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+        build: ./AS/
+        volumes:
+            - ./AS:/app/
+            - /app/node_modules
+        networks:
+            - appnetwork
+
+    fib-server:
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+        build: ./FS/
+        ports:
+            - "9090:9090"
+        volumes:
+            - ./FS:/app/
+            - /app/node_modules
+        networks:
+            - appnetwork
+
+    user-server:
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+        build: ./US/
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./US:/app/
+            - /app/node_modules
+        networks:
+            - appnetwork
+
+
+networks:
+    appnetwork:
+        driver: bridge

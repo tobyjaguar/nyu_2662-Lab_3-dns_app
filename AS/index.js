@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const socket = dgram.createSocket('udp4');
 
-const socket_port = process.env.SOCKET_PORT || 53533;
+const socket_port = 53533;
 const TTL = /TTL=/g;
 
 socket.on('listening', () => {
@@ -17,10 +17,10 @@ socket.on('error', (err) => {
 });
 
 socket.on('message', (msg, rinfo) => {
-  //console.log('Recieved UDP message');
+  console.log('as: recieved UDP message');
 
   let record = msg.toString()
-  //console.log(record)
+  console.log(record)
 
   if (record.search(TTL) >= 0) {
     fs.appendFile('records.txt', record, (err) => {
