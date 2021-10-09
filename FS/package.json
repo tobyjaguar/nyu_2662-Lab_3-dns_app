@@ -1,0 +1,14 @@
+{
+  "name": "fib-server",
+  "version": "1.0.0",
+  "description": "Fibonacci server returns fib number",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tobyjaguar",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

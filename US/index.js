@@ -7,8 +7,8 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 // set up express for query strings
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req, res) {
     res.send('user-server')
@@ -33,7 +33,7 @@ app.get('/fibonacci', async (req, res) => {
     res.send(`
       yay! fibonacci:
       hostname: ${payload.hostname}
-      fs port: ${payload.fs_port} 
+      fs port: ${payload.fs_port}
       number: ${payload.seq_num}
       AS ip: ${payload.as_ip}
       AS port: ${payload.as_port}
