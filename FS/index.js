@@ -25,12 +25,12 @@ app.get('/fibonacci', async (req, res) => {
   let parsed = parseInt(fibNum);
   let err = (isNaN(parsed)) ? true : false;
   if (err) {
-    res.sendStatus(400);
+    res.status(400);
     res.send('bad format');
     return
   }
   if (parsed > 2000) {
-    res.sendStatus(400);
+    res.status(400);
     res.send('number too large');
     return
   }
@@ -61,7 +61,7 @@ app.put('/register', async (req, res) => {
     socket.close();
   });
 
-  res.sendStatus(201)
+  res.status(201)
   res.send(`registered`)
 });
 

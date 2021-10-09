@@ -65,12 +65,12 @@ app.get('/fibonacci', async (req, res) => {
 
     await sleep(1000);
 
-    let fibNum = `oops, didn't get anything back`;
+    let fibResult = `oops, didn't get anything back`;
 
     try {
       if (!fib_ip) {
-        res.sendStatus(200);
-        res.send(fibNum);
+        res.status(200);
+        res.send(fibResult);
         return;
       }
 
@@ -84,15 +84,19 @@ app.get('/fibonacci', async (req, res) => {
         }
       });
       console.log('us: result from fs:::')
-      fibNum = result.data;
+      fibResult = result.data.toString();
     }
     catch (err) {
       console.log('error dialing fibonacci server');
       console.log(err);
     }
-    console.log(`us: sending data to client:::${fibNum}`);
-    res.sendStatus(200);
-    res.send(fibNum);
+    console.log(`us: sending data to client:::${fibResult}`);
+    res.status(200);
+    res.send(`
+      <html>
+        The fibonacci reseult of ${payload.seq_num} is <string>${fibResult}</strong>
+      </html>
+    `);
 });
 
 function sleep(ms) {
