@@ -20,3 +20,15 @@ number as desired, although, note that I capped the fib number at 2000
 as_ip, here, is the Authoritative Server machine name, which docker resolves to ip
 
 as_port is the udp port in which the dns query will be sent
+
+### k8s deployment
+
+The kubernetes deployment can be accessed at ip: 169.51.194.186
+
+User-Server is on port: 30960
+
+Fibonacci-Server is on port: 31166
+
+Authoritative-Server is on port: 31870
+
+The root of the User-Server and the Fibonacci-Server will list its name in the browser
