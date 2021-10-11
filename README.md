@@ -33,7 +33,7 @@ Authoritative-Server is on port: 31870
 
 The root of the User-Server and the Fibonacci-Server will list its name in the browser
 
-*** Notes to me:
+### Notes to me:
 
 A note for posterity when working with IBM Kubernetes services:
 
