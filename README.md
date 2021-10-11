@@ -32,3 +32,35 @@ Fibonacci-Server is on port: 31166
 Authoritative-Server is on port: 31870
 
 The root of the User-Server and the Fibonacci-Server will list its name in the browser
+
+*** Notes to me:
+
+A note for posterity when working with IBM Kubernetes services:
+
+first login to imb cloud:
+
+```ibmcloud login -a cloud.ibm.com -r eu-de -g Default```
+
+target the cluster:
+
+```ibmcloud ks cluster config --cluster <cluster-name/ID>```
+
+confirm connection to cluster:
+
+```kubectl config current-context```
+
+finding the public IP:
+
+```ibmcloud ks worker ls --cluster <cluster-name/ID>```
+
+where the cluster id is listed from the console section for the kubernetes cluster
+
+listing the kubernetes services:
+
+```kubectl describe services```
+
+this is the network service described in the service yaml
+
+finding the random ports assigned to the deployment:
+
+```kubectl describe service <service-name>```
