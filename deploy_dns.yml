@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dns-deployment
+  labels:
+    app: dns-app
+spec:
+  selector:
+    matchLabels:
+      app: dns-app
+  template:
+    metadata:
+      labels:
+        app: dns-app
+    spec:
+      containers:
+        - name: dns-server
+          image: tobyjaguar/dns-app_dns-server
+          ports:
+            - containerPort: 53533
+              name: dns-service-udp
+              protocol: UDP
+        - name: fib-server
+          image: tobyjaguar/dns-app_fib-server
+          ports:
+            - containerPort: 9090
+              name: fib-service
+        - name: user-server
+          image: tobyjaguar/dns-app_user-server
+          ports:
+            - containerPort: 8080
+              name: user-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-network
+spec:
+  type: NodePort
+  selector:
+    app: dns-app
+  ports:
+    - name: dns-service-udp
+      port: 30001
+      targetPort: 53533
+      protocol: UDP
+    - name: fib-service
+      port: 30002
+      targetPort: 9090
+      protocol: TCP
+    - name: user-service
+      port: 30003
+      targetPort: 8080
+      protocol: TCP
